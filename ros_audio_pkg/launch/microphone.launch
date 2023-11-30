@@ -1,4 +1,0 @@
-<launch>
-        <node pkg="ros_audio_pkg" type="microphone.py" name="microphone" output="screen"/>
-        <node pkg="ros_audio_pkg" type="rms.py" name="rms" output="screen"/>
-</launch>
