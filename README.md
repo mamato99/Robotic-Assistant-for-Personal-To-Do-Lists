@@ -20,7 +20,17 @@ The goal of this project is to develop a robotic assistant to aid individuals in
 
 ## To-Do List Requirements
 
-The specific requirements for the to-do list functionality have already been provided. The development team will focus on implementing the features outlined above, ensuring a seamless and effective interaction between the robotic assistant and its users.
+Develop a ROS dialogue system that allows the user to insert and remove activities from a to-do list. The dialogue system should also enable the user to activate a reminder when the deadline is approaching.
+
+Each element in the list is identified by a tag (identifying the activity), a deadline, and a category (e.g., CR course, sport, personal, etc) (*).
+
+The dialogue system must allow the user to:
+- View the activities in the to-do list
+- Insert a new activity into the to-do list
+- Remove an activity from the to-do list
+- Manage multiple users
+- (*) Manage multiple categories of to-do lists
+- Update an activity in the to-do list
 
 ## Project Structure
 
