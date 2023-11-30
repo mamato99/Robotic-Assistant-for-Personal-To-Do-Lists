@@ -1,0 +1,87 @@
+version: "2.0"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_restart
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+  - action: action_creset
+
+- rule: Be gentle
+  steps:
+  - intent: thankyou
+  - action: utter_noworries
+
+## Insert
+- rule: Insert 
+  steps:
+  - intent: insert
+  - action: insert_form
+  - active_loop: insert_form
+  - active_loop: null
+  - action: action_insert
+
+- rule: Insert deadline
+  condition:
+  - slot_was_set:
+    - logical: True
+  steps:
+  - intent: affirm
+  - action: deadline_form
+  - action: action_insert
+
+## Delete
+- rule: remove_category
+  steps:
+  - intent: remove_category
+  - action: category_form
+  - active_loop: category_form
+  - active_loop: null
+  - action: action_remove
+
+- rule: remove_activity
+  steps:
+  - intent: remove_activity
+  - action: items_form
+  - active_loop: items_form
+  - active_loop: null
+  - action: action_remove
+
+## Show
+- rule: Show_activity
+  steps:
+  - intent: show_activities
+  - action: category_form
+  - active_loop: category_form
+  - active_loop: null
+  - action: action_show
+
+- rule: Show_categories
+  steps:
+  - intent: show_categories
+  - action: action_show
+
+## Update
+- rule: Update
+  steps:
+  - intent: update
+  - action: items_form
+  - active_loop: items_form
+  - active_loop: null
+  - action: action_store_activity
+  - action: activity_form
+  - active_loop: activity_form
+  - active_loop: null
+  - action: action_update

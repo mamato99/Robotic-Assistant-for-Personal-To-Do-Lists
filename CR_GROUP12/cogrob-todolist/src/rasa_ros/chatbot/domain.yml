@@ -1,0 +1,161 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- goodbye
+- thankyou
+- identification
+- bot_challenge
+- affirm
+- deny
+- insert
+- remove_activity
+- remove_category
+- show_categories
+- show_activities
+- update
+- inform
+entities:
+- activity
+- category
+- time
+- username
+slots:
+  username:
+    type: text
+    influence_conversation: false
+  activity:
+    type: text
+    influence_conversation: false
+  category:
+    type: text
+    influence_conversation: false
+  deadline:
+    type: any
+    influence_conversation: false
+  reminder:
+    type: bool
+    influence_conversation: false
+  tmp:
+    type: text
+    influence_conversation: false
+  logical:
+    type: bool
+    influence_conversation: false
+  time:
+    type: any
+    influence_conversation: false
+responses:
+  utter_ask_username:
+  - text: Who am I talking to?
+  - text: What is your name?
+  - text: May I know your name?
+  utter_greet_user:
+  - text: Hey {username}! How can I help you?
+  - text: Pleasure to meet you {username}! How can I help you?
+  - text: Hi {username}! How can I help you?
+  utter_greet:
+  - text: Hello!
+  utter_goodbye:
+  - text: Talk to you later!
+  - text: Have a good day.
+  - text: Until next time!
+  - text: Bye {username}
+  - text: By {username}, Have a good day.
+  utter_noworries:
+  - text: My pleasure.
+  - text: You are welcome!
+  utter_ask_deadline:
+  - text: Please insert the dealine
+  - text: What is the deadline for your activity?
+  - text: What is the deadline?
+  utter_ask_category:
+  - text: Which is the category?
+  - text: Please, tell me the category
+  utter_ask_activity:
+  - text: Which is the activity?
+  - text: Please, tell me the activity
+  utter_ask_activity_form_activity:
+  - text: Which is the new activity?
+  - text: To replace with?
+  utter_iamabot:
+  - text: Hello, my name is Retrieval Bot.
+  - text: I am called Retrieval Bot!
+  - text: I'm a bot, powered by Rasa
+  utter_ask_whatelse:
+  - text: What else can I help you with?
+  - text: Something else {username}?
+  - text: Anything more?
+  utter_please_rephrase:
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+  utter_ask_logical:
+  - text: Do you want insert a deadline?
+  utter_ask_reminder:
+  - text: Do you want a reminder?
+actions:
+- action_creset
+- action_insert
+- action_remove
+- action_show
+- action_store_activity
+- action_update
+- utter_ask_activity
+- utter_ask_category
+- utter_ask_deadline
+- utter_ask_username
+- utter_ask_whatelse
+- utter_goodbye
+- utter_greet
+- utter_greet_user
+- utter_noworries
+- utter_please_rephrase
+forms:
+  username_form:
+    required_slots:
+      username:
+      - type: from_entity
+        entity: username
+  category_form:
+    required_slots:
+      category:
+      - type: from_entity
+        entity: category
+  activity_form:
+    required_slots:
+      activity:
+      - type: from_entity
+        entity: activity
+  items_form:
+    required_slots:
+      activity:
+      - type: from_entity
+        entity: activity
+      category:
+      - type: from_entity
+        entity: category
+  insert_form:
+    required_slots:
+      activity:
+      - type: from_entity
+        entity: activity
+      category:
+      - type: from_entity
+        entity: category
+      logical:
+      - type: from_intent
+        intent: deny
+        value: false
+  deadline_form:
+    required_slots:
+      deadline:
+      - type: from_entity
+        entity: time
+      reminder:
+      - type: from_intent
+        intent: affirm
+        value: true
+      - type: from_intent
+        intent: deny
+        value: false
