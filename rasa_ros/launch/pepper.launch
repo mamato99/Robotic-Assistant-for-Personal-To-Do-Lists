@@ -1,0 +1,29 @@
+<launch>
+    <arg name="nao_ip" default="$(optenv NAO_IP 10.0.1.230)" />
+    <arg name="nao_port" default="$(optenv NAO_PORT 9559)" />
+    <param name="nao_ip" type="string" value="$(arg nao_ip)"/>
+    <param name="nao_port" type="string" value="$(arg nao_port)"/>
+
+    <node pkg="pepper_nodes" type="tablet_node.py" name="tablet_node" required="true" args="--ip=$(arg nao_ip) --port=$(arg nao_port)" output="screen" />
+    <node pkg="pepper_nodes" type="text2speech_node.py" name="text2speech" required="true" args="--ip=$(arg nao_ip) --port=$(arg nao_port)" output="screen" />
+
+    <arg name="flask_ip" default="$(optenv FLASK_IP 0.0.0.0)"/>
+    <arg name="flask_port" default="$(optenv FLASK_PORT 5000)"/>
+    <param name="flask_ip" type="string" value="$(arg flask_ip)"/>
+    <param name="flask_port" type="string" value="$(arg flask_port)"/>
+
+    <node pkg="tablet_pkg" type="tablet_manager.py" name="tablet_manager" args="--ip=$(arg flask_ip) --port=$(arg flask_port)" output="screen" />
+    <node pkg="tablet_pkg" type="rosbridge_server.sh" name="rosbridge_server" output="log"/> 
+
+    <arg name="node_start_delay" default="60.0" />  
+    <node pkg="rasa_ros" name="rasa_action" type="rasa_action.sh"/>
+    <node pkg="rasa_ros" name="rasa_server" type="rasa_server.sh" output="screen"/>
+    <node pkg="rasa_ros" name="rasa_server_ducklink" type="rasa_server_ducklink.sh" output="log"/>
+    <node pkg="rasa_ros" name="dialogue_server" type="dialogue_server.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+    <node pkg="rasa_ros" name="dialogue_interface" type="dialogue_interface.py" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+
+    <node pkg="ros_audio_pkg" type="voice_detection.py" name="voice_detection"/>
+    <node pkg="ros_audio_pkg" type="speech2text.py" name="speech2text"/>
+    <node pkg="ros_audio_pkg" type="reidentification.py" name="reidentification"/>
+
+</launch>

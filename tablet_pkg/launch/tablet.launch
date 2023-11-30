@@ -1,0 +1,9 @@
+<launch>
+  <arg name="flask_ip" default="$(optenv FLASK_IP 0.0.0.0)"/>
+  <arg name="flask_port" default="$(optenv FLASK_PORT 5000)"/>
+  <param name="flask_ip" type="string" value="$(arg flask_ip)"/>
+  <param name="flask_port" type="string" value="$(arg flask_port)"/>
+
+  <node pkg="tablet_pkg" type="tablet_manager.py" name="tablet_manager" args="--ip=$(arg flask_ip) --port=$(arg flask_port)" output="screen" />
+  <node pkg="tablet_pkg" type="rosbridge_server.sh" name="rosbridge_server" output="log"/> 
+</launch>
